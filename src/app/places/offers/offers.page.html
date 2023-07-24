@@ -44,16 +44,7 @@
         <ion-list>
           <ion-item-sliding *ngFor="let offer of offers" #slidingItem>
           <!-- <ion-item-sliding *ngFor="let offer of offers.slice(1)"> -->
-            <ion-item [routerLink]="['/', 'places', 'tabs', 'offers', offer.id]"
-              detail>
-              <ion-thumbnail slot="start">
-                <ion-img [src]="offer.imageUrl"></ion-img>
-              </ion-thumbnail>
-              <ion-label>
-                <h2>{{ offer.title }}</h2>
-                <p>{{ offer.description }}</p>
-              </ion-label>
-            </ion-item>
+            <app-offer-item [offer]="offer"></app-offer-item>
             <ion-item-options side="end">
               <!-- <ion-item-option color="secondary" [routerLink]="['/', 'places', 'tabs', 'offers', 'edit', offer.id]"> -->
               <ion-item-option color="secondary" (click)="onEdit(offer.id, slidingItem)">
