@@ -2,11 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, AlertController, LoadingController, ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/auth/auth.service';
-import { BookingService } from 'src/app/bookings/booking.service';
 import { CreateBookingComponent } from '../../../bookings/create-booking/create-booking.component';
 import { Place } from '../../place.model';
 import { PlacesService } from '../../places.service';
+import { AuthService } from './../../../auth/auth.service';
+import { BookingService } from './../../../bookings/booking.service';
+import { MapModalComponent } from './../../../shared/map-modal/map-modal.component';
 
 @Component({
   selector: 'app-place-detail',
@@ -117,6 +118,20 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
           });
         }
       });
+  }
+
+  onShowFullMap() {
+    this.modalCtrl.create({
+      component: MapModalComponent,
+      componentProps: {
+        center: { lat: this.place.location.lat, lng: this.place.location.lng },
+        selectable: false,
+        closeButtonText: 'Close',
+        title: this.place.location.address
+      }
+    }).then(modalEl => {
+      modalEl.present();
+    })
   }
 
   ngOnDestroy(): void {

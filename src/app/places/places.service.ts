@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, delay, map, of, switchMap, take, tap } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { PlaceLocation } from './location.model';
 import { Place } from './place.model';
 
 interface PlaceData {
@@ -12,6 +13,7 @@ interface PlaceData {
   price: number;
   title: string;
   userId: string;
+  location: PlaceLocation;
 }
 
 @Injectable({
@@ -42,7 +44,9 @@ export class PlacesService {
                 resData[key].imageUrl,
                 resData[key].price,
                 new Date(resData[key].availableFrom),
-                new Date(resData[key].availableTo), resData[key].userId)
+                new Date(resData[key].availableTo),
+                resData[key].userId,
+                resData[key].location)
               );
             }
           }
@@ -67,14 +71,15 @@ export class PlacesService {
           placeData.price,
           new Date(placeData.availableFrom),
           new Date(placeData.availableTo),
-          placeData.userId
+          placeData.userId,
+          placeData.location
         )
       }));
   }
 
-  addPlace(title: string, description: string, price: number, dateFrom: Date, dateTo: Date) {
+  addPlace(title: string, description: string, price: number, dateFrom: Date, dateTo: Date, location: PlaceLocation) {
     let generatedId: string;
-    const newPlace = new Place(Math.random().toString(), title, description, 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Paris_Night.jpg/1024px-Paris_Night.jpg', price, dateFrom, dateTo, this.authService.userId);
+    const newPlace = new Place(Math.random().toString(), title, description, 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Paris_Night.jpg/1024px-Paris_Night.jpg', price, dateFrom, dateTo, this.authService.userId, location);
     return this.http
       .post<{ name: string }>('https://ionic-angular-course-463f0-default-rtdb.asia-southeast1.firebasedatabase.app/offered-places.json', {
         ...newPlace,
@@ -117,7 +122,8 @@ export class PlacesService {
           oldPlace.price,
           oldPlace.availableFrom,
           oldPlace.availableTo,
-          oldPlace.userId
+          oldPlace.userId,
+          oldPlace.location
         );
         return this.http.put(`https://ionic-angular-course-463f0-default-rtdb.asia-southeast1.firebasedatabase.app/offered-places/${placeId}.json`, { ...updatedPlaces[updatedPlaceIndex], id: null })
       }),
