@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">module-7</string>
+    <string name="title_activity_main">module-7</string>
+    <string name="package_name">com.udemycourse.ionicangular.joong</string>
+    <string name="custom_url_scheme">com.udemycourse.ionicangular.joong</string>
+</resources>

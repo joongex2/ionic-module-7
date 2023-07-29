@@ -77,9 +77,19 @@ export class PlacesService {
       }));
   }
 
-  addPlace(title: string, description: string, price: number, dateFrom: Date, dateTo: Date, location: PlaceLocation) {
+  uploadImage(image: File) {
+    const uploadData = new FormData();
+    uploadData.append('image', image);
+
+    return this.http.post<{ imageUrl: string, imagePath: string }>(
+      'https://us-central1-ionic-angular-course-463f0.cloudfunctions.net/storeImage',
+      uploadData
+    );
+  }
+
+  addPlace(title: string, description: string, price: number, dateFrom: Date, dateTo: Date, location: PlaceLocation, imageUrl: string) {
     let generatedId: string;
-    const newPlace = new Place(Math.random().toString(), title, description, 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Paris_Night.jpg/1024px-Paris_Night.jpg', price, dateFrom, dateTo, this.authService.userId, location);
+    const newPlace = new Place(Math.random().toString(), title, description, imageUrl, price, dateFrom, dateTo, this.authService.userId, location);
     return this.http
       .post<{ name: string }>('https://ionic-angular-course-463f0-default-rtdb.asia-southeast1.firebasedatabase.app/offered-places.json', {
         ...newPlace,
