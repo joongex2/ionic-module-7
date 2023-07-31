@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  googleMapsAPIKey: 'secret'
+  googleMapsAPIKey: 'secret',
+  firebaseAPIKey: 'secret'
 };
 
 /*
