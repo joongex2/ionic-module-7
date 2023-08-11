@@ -12,7 +12,7 @@ const fbAdmin = require('firebase-admin');
 const { Storage } = require('@google-cloud/storage');
 
 const storage = new Storage({
-  projectId: 'ionic-angular-course'
+  projectId: 'ionic-angular-course-463f0'
 });
 
 fbAdmin.initializeApp({ credential: fbAdmin.credential.cert(require('./ionic-app.json')) });
